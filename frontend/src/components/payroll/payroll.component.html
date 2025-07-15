@@ -1,0 +1,153 @@
+<div class="container mt-4">
+  <h4>Payroll Management</h4>
+
+  <!-- ADMIN Only Form -->
+  <form [formGroup]="payrollForm" (ngSubmit)="addPayroll()" *ngIf="userRole === 'ADMIN'" class="mb-4">
+    <div class="row">
+      <div class="col-md-4">
+        <label>Employee</label>
+        <select formControlName="empId" class="form-control">
+          <option value="">-- Select --</option>
+          <option *ngFor="let e of employees" [value]="e.empId">
+            {{ e.firstName }} {{ e.lastName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>From Date</label>
+        <input type="date" formControlName="fromDate" class="form-control" />
+      </div>
+      <div class="col-md-3">
+        <label>To Date</label>
+        <input type="date" formControlName="toDate" class="form-control" />
+      </div>
+      <div class="col-md-2">
+        <label>Month</label>
+        <input type="text" formControlName="month" class="form-control" placeholder="e.g. JULY" />
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-success me-2" type="submit">Add Payroll</button>
+      <button type="button" class="btn btn-info me-2" (click)="generatePayslip()">Generate Payslip</button>
+      <button type="button" class="btn btn-warning me-2" (click)="downloadPayslip()">Download Payslip</button>
+    </div>
+  </form>
+
+  <!-- Payslip for EMPLOYEE -->
+  <!-- <div *ngIf="userRole === 'EMPLOYEE'" class="mb-3">
+    <label>Select Month</label>
+    <input type="text" formControlName="month" class="form-control w-25 d-inline-block me-2" placeholder="e.g. JULY" />
+    <button class="btn btn-primary" (click)="viewPayslip()">View Payslip</button>
+  </div> -->
+  <!-- Common Payslip View Block for EMPLOYEE / HR / MANAGER / FINANCE -->
+<form [formGroup]="payrollForm" *ngIf="userRole !== 'ADMIN'" class="mb-3">
+  <div class="row">
+    <!-- Show Employee dropdown only for HR, MANAGER, FINANCE -->
+    <div class="col-md-4" *ngIf="userRole !== 'EMPLOYEE'">
+      <label>Employee</label>
+      <select formControlName="empId" class="form-control">
+        <option value="">-- Select --</option>
+        <option *ngFor="let e of employees" [value]="e.empId">
+          {{ e.firstName }} {{ e.lastName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label>Month</label>
+      <input type="text" formControlName="month" class="form-control" placeholder="e.g. JULY" />
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end gap-2">
+      <button class="btn btn-primary" type="button" (click)="viewPayslip()">View Payslip</button>
+      <button class="btn btn-warning" type="button" (click)="downloadPayslip()">Download Payslip</button>
+    </div>
+  </div>
+</form>
+
+  <!-- Display Payslip -->
+  <div *ngIf="isPayslipAvailable">
+    <h5>Payslip Details</h5>
+    <table class="table table-striped">
+      <tr>
+        <th>Name</th>
+        <td>{{ payslip.name }}</td>
+      </tr>
+      <tr>
+        <th>Department</th>
+        <td>{{ payslip.department }}</td>
+      </tr>
+      <tr>
+        <th>Month</th>
+        <td>{{ payslip.month }}</td>
+      </tr>
+      <tr>
+        <th>Year</th>
+        <td>{{ payslip.year }}</td>
+      </tr>
+      <tr>
+        <th>Basic Salary</th>
+        <td>{{ payslip.basicSalary }}</td>
+      </tr>
+      <tr>
+        <th>HRA</th>
+        <td>{{ payslip.hra }}</td>
+      </tr>
+      <tr>
+        <th>Special Allowance</th>
+        <td>{{ payslip.specialAllowance }}</td>
+      </tr>
+      <tr>
+        <th>Bonus</th>
+        <td>{{ payslip.bonus }}</td>
+      </tr>
+      <tr>
+        <th>PF Deduction</th>
+        <td>{{ payslip.pfDeduction }}</td>
+      </tr>
+      <tr>
+        <th>Tax Deduction</th>
+        <td>{{ payslip.taxDeduction }}</td>
+      </tr>
+      <tr>
+        <th>Working Days</th>
+        <td>{{ payslip.workingDays }}</td>
+      </tr>
+      <tr>
+        <th>Working Hours</th>
+        <td>{{ payslip.workingHoursInMinutes }}</td>
+      </tr>
+      <tr>
+        <th>Net Salary</th>
+        <td><strong>{{ payslip.netSalary }}</strong></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Payroll Table -->
+  <div *ngIf="payrolls.length > 0">
+    <h5 class="mt-4">Generated Payrolls</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Month</th>
+          <th>Net Salary</th>
+          <th>Payment Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of payrolls">
+          <td>{{ p.employee?.firstName }} {{ p.employee?.lastName }}</td>
+          <td>{{ p.month }}</td>
+          <td>{{ p.netSalary }}</td>
+          <td>{{ p.paymentStatus }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+
+</div>

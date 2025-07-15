@@ -1,0 +1,58 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="announcement-form">
+ 
+  <!-- Title -->
+  <label>📌 Title</label>
+  <input type="text" formControlName="title" class="form-control" placeholder="Announcement Title" />
+ 
+  <!-- Message -->
+  <label class="mt-2">💬 Message</label>
+  <textarea rows="3" formControlName="message" class="form-control" placeholder="Announcement details..."></textarea>
+ 
+  <!-- Visibility Selector -->
+  <label class="mt-2">🔍 Visibility</label>
+  <select formControlName="visibility" class="form-control">
+    <!-- <option value="ALL">All</option>
+    <option value="ROLE">Role</option> -->
+    <option value="DEPARTMENT">Department</option>
+    <option value="EMPLOYEE">Employee (UUID)</option>
+  </select>
+ 
+  <!-- Dynamic VisibleToValue Field -->
+  <div *ngIf="form.value.visibility !== 'ALL'" class="mt-2">
+    <label>➡️ Target Value</label>
+ 
+ 
+    <!--Employee-->
+    <select *ngIf="form.value.visibility === 'EMPLOYEE'" formControlName="visibleToValue" class="form-control">
+      <option [ngValue]="''" disabled selected>-- Select Employee --</option>
+      <option *ngFor="let emp of employees" [ngValue]="emp.empId">
+        {{ emp.name }} ({{ emp.email }})
+      </option>
+    </select>
+ 
+ 
+ 
+ 
+    <!-- ROLE -->
+    <select *ngIf="form.value.visibility === 'ROLE'" formControlName="visibleToValue" class="form-control">
+      <option value="" disabled selected>-- Select Role --</option>
+      <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+    </select>
+ 
+    <!-- DEPARTMENT -->
+    <select *ngIf="form.value.visibility === 'DEPARTMENT'" formControlName="visibleToValue" class="form-control">
+      <option value="" disabled selected>-- Select Department --</option>
+      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+    </select>
+  </div>
+ 
+  <!-- Optional Expiry Date -->
+  <label class="mt-2">📅 Expires On (Optional)</label>
+  <input type="date" formControlName="expiresOn" class="form-control" />
+ 
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-primary mt-3">
+    📢 Post Announcement
+  </button>
+</form>
+ 

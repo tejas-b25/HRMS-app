@@ -1,0 +1,7 @@
+<router-outlet *ngIf="!authService.isLoggedIn()"></router-outlet>
+
+<div class="app-container" *ngIf="authService.isLoggedIn()">
+  <div class="main-content" [class.sidebar-collapsed]="sidebarCollapsed">
+    <router-outlet></router-outlet>
+  </div>
+</div>

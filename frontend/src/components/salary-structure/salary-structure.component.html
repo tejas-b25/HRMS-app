@@ -1,0 +1,70 @@
+<div class="container mt-4">
+<div class="d-flex justify-content-between mb-2">
+<h4>Salary Structures</h4>
+<button class="btn btn-primary" (click)="openAddModal()">+ Assign Salary</button>
+</div>
+ 
+  <!-- Table -->
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Employee</th>
+<th>Basic</th>
+<th>HRA</th>
+<th>Effective From</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let s of structures">
+<td>{{ s.employee?.firstName }} {{ s.employee?.lastName }}</td>
+<td>{{ s.basicSalary }}</td>
+<td>{{ s.hra }}</td>
+<td>{{ s.effectiveFrom }}</td>
+<td>
+<button class="btn btn-sm btn-info me-1" (click)="openEditModal(s)">Edit</button>
+<button class="btn btn-sm btn-danger" (click)="deleteStructure(s.salaryStructureId)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+ 
+  <!-- Modal -->
+<div class="modal fade" id="salaryModal" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">{{ modalTitle }}</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModalBtn"></button>
+</div>
+<div class="modal-body">
+<form [formGroup]="salaryForm" (ngSubmit)="submitForm()">
+<div class="row">
+<div class="col-md-6 mb-3">
+<label>Employee</label>
+<select formControlName="empId" class="form-control">
+<option value="">-- Select --</option>
+<option *ngFor="let emp of employees" [value]="emp.empId">
+
+                    {{ emp.firstName }} {{ emp.lastName }}
+</option>
+</select>
+</div>
+<div class="col-md-6 mb-3"><label>Basic Salary</label><input type="number" formControlName="basicSalary" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>HRA</label><input type="number" formControlName="hra" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>Special Allowance</label><input type="number" formControlName="specialAllowance" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>Bonus</label><input type="number" formControlName="bonus" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>PF Deduction</label><input type="number" formControlName="pfDeduction" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>Tax Deduction</label><input type="number" formControlName="taxDeduction" class="form-control" /></div>
+<div class="col-md-6 mb-3"><label>Effective From</label><input type="date" formControlName="effectiveFrom" class="form-control" /></div>
+</div>
+<button type="submit" class="btn btn-success">Save</button>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+ 

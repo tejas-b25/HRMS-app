@@ -1,0 +1,80 @@
+<!-- 📄 Upload Document Form -->
+<form [formGroup]="uploadForm" (ngSubmit)="uploadDocument()" class="form-box border p-3 rounded shadow-sm bg-light">
+  <div class="mb-3">
+    <label class="form-label">📄 Document Type</label>
+    <input type="text" formControlName="type" class="form-control" placeholder="e.g. PAN, Aadhar" />
+  </div>
+ 
+  <div class="mb-3">
+    <label class="form-label">📎 Select File</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)" />
+  </div>
+ 
+  <div class="mb-3">
+    <label class="form-label">👤 Select Employee</label>
+    <select class="form-select" formControlName="empId" (change)="onEmployeeChange()">
+      <option value="" disabled>Select Employee</option>
+      <option *ngFor="let emp of employees" [value]="emp.empId">
+        {{ emp.firstName }} {{ emp.lastName }}
+      </option>
+    </select>
+  </div>
+ 
+  <button class="btn btn-success w-100" type="submit" [disabled]="uploadForm.invalid || !selectedFile">
+    📤 Upload Document
+  </button>
+</form>
+ 
+<!-- 📁 Uploaded Documents Section -->
+<div class="mt-4">
+  <h5>📁 Uploaded Documents</h5>
+  <ul *ngIf="documents.length; else noDocs" class="list-group">
+    <li
+      *ngFor="let doc of documents"
+      class="list-group-item d-flex justify-content-between align-items-start flex-wrap"
+    >
+      <div>
+        <strong>{{ doc.type }}</strong> - {{ doc.fileName }}
+        <div class="text-muted small">ID: {{ doc.id || '❌ missing' }}</div>
+        <span *ngIf="doc.verified" class="badge bg-success ms-2">Verified</span>
+      </div>
+ 
+      <div class="d-flex flex-column align-items-end gap-2">
+        <button
+          class="btn btn-sm btn-outline-primary"
+          (click)="verify(doc.id)"
+          [disabled]="doc.verified"
+        >
+          ✅ Verify
+        </button>
+ 
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="deleteDocument(doc.id)"
+        >
+          🗑️ Delete
+        </button>
+      </div>
+    </li>
+  </ul>
+ 
+  <ng-template #noDocs>
+    <p class="text-muted">No documents uploaded yet for this employee.</p>
+  </ng-template>
+</div>
+ 
+ 
+<!-- ⏳ Expiring Documents Section -->
+<div class="mt-5">
+  <h5>⏳ Expiring Documents</h5>
+  <ul *ngIf="expiringDocs.length; else noExpiring" class="list-group">
+    <li *ngFor="let doc of expiringDocs" class="list-group-item">
+      {{ doc.type }} - {{ doc.fileName }} <br />
+      <small class="text-muted">Expiry: {{ doc.expiryDate | date:'mediumDate' }}</small>
+    </li>
+  </ul>
+  <ng-template #noExpiring>
+    <p class="text-muted">No expiring documents found.</p>
+  </ng-template>
+</div>
+ 

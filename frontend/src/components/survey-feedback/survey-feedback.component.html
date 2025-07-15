@@ -1,0 +1,58 @@
+<h2>Create Survey Feedback</h2>
+
+<form [formGroup]="surveyForm" (ngSubmit)="createSurvey()">
+  <label>Title:</label>
+  <input type="text" formControlName="title" /><br /><br />
+
+  <label>Type:</label>
+  <select formControlName="type">
+    <option *ngFor="let type of surveyTypes" [value]="type">{{ type }}</option>
+  </select><br /><br />
+
+  <label>Target Roles:</label>
+  <select formControlName="targetRoles" multiple>
+    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+  </select><br /><br />
+
+  <label>Deadline (optional):</label>
+  <input type="datetime-local" formControlName="deadline" /><br /><br />
+
+  <label>Questions:</label><br />
+  <div formArrayName="questions">
+    <div *ngFor="let q of questions.controls; let i = index">
+      <textarea [formControlName]="i" rows="2" cols="60"></textarea>
+      <button type="button" (click)="removeQuestion(i)" *ngIf="questions.length > 1">Remove</button><br />
+    </div>
+  </div>
+  <button type="button" (click)="addQuestion()">+ Add Question</button><br /><br />
+
+  <button type="submit" [disabled]="surveyForm.invalid">Create Survey</button>
+</form>
+
+<hr />
+
+<h3>All Surveys</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Target Roles</th>
+      <th>Created At</th>
+      <th>Deadline</th>
+      <th>Closed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of surveys">
+      <td>{{ s.title }}</td>
+      <td>{{ s.type }}</td>
+      <td>{{ s.targetRoles?.join(', ') }}</td>
+      <td>{{ formatDateTime(s.createdAt) }}</td>
+      <td>{{ formatDateTime(s.deadline) }}</td>
+      <td>{{ s.closed ? 'Yes' : 'No' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p-toast></p-toast>

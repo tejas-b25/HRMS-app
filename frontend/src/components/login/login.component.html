@@ -1,0 +1,98 @@
+<div class="main-wrapper">
+  <div class="login-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <img src="assets/img/quantum1.png" alt="Company Logo" class="logo" />
+      <h1>Welcome to Quantum HRM</h1>
+      <p>Empowering Digital Solutions with Innovation & Integrity</p>
+    </div>
+ 
+    <!-- Form Section -->
+    <div class="form-section">
+      <!-- Login Form -->
+      <div *ngIf="!showForgot && !showReset" class="login-form">
+        <h2>{{ isAdmin ? 'Admin Login' : 'User Login' }}</h2>
+ 
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            id="username"
+            [(ngModel)]="username"
+            type="text"
+            placeholder="Enter your username"
+          />
+        </div>
+ 
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            id="password"
+            [(ngModel)]="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+ 
+        <button (click)="login()" class="login-btn">Login</button>
+ 
+        <div class="form-footer">
+          <button (click)="toggleUserType()" class="switch-btn">
+            Switch to {{ isAdmin ? 'User' : 'Admin' }} Login
+          </button>
+          <button (click)="showForgot = true" class="forgot-btn">Forgot Password?</button>
+        </div>
+      </div>
+ 
+      <!-- Forgot Password Form -->
+      <div *ngIf="showForgot || showReset" class="forgot-form">
+        <button (click)="showForgot = false; showReset = false" class="back-btn">
+          ← Back to Login
+        </button>
+       
+        <h2>Password Recovery</h2>
+ 
+        <div *ngIf="!showReset" class="form-group">
+          <p>Enter your email to receive a password reset OTP</p>
+          <label for="email">Email:</label>
+          <input
+            id="email"
+            [(ngModel)]="email"
+            type="email"
+            placeholder="Enter your email"
+          />
+          <button (click)="sendOtp()" class="recovery-btn">Send OTP</button>
+        </div>
+ 
+        <div *ngIf="showReset" class="reset-section">
+          <p>We've sent an OTP to your email. Please enter it below along with your new password.</p>
+ 
+          <div class="form-group">
+            <label for="otp">OTP:</label>
+            <input
+              id="otp"
+              [(ngModel)]="otp"
+              type="text"
+              placeholder="Enter OTP"
+            />
+          </div>
+ 
+          <div class="form-group">
+            <label for="newPassword">New Password:</label>
+            <input
+              id="newPassword"
+              [(ngModel)]="newPassword"
+              type="password"
+              placeholder="Enter new password"
+            />
+          </div>
+ 
+          <button (click)="resetPassword()" class="recovery-btn">Reset Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- PrimeNG Toast Container -->
+<p-toast position="top-right"></p-toast>
+ 

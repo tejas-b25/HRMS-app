@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-center">Your Leave Balance</h3>
+
+  <div *ngIf="leaveBalance; else loading" class="row g-3">
+    <div class="col-md-6 col-lg-4" *ngFor="let leave of [
+      { name: 'Sick Leave', available: leaveBalance.availableSickLeaves, consumed: leaveBalance.consumedSickLeaves },
+      { name: 'Casual Leave', available: leaveBalance.availableCasualLeaves, consumed: leaveBalance.consumedCasualLeaves },
+      { name: 'Paid Leave', available: leaveBalance.availablePaidLeaves, consumed: leaveBalance.consumedPaidLeaves },
+      { name: 'Maternity Leave', available: leaveBalance.availableMaternityLeaves, consumed: leaveBalance.consumedMaternityLeaves },
+      { name: 'Paternity Leave', available: leaveBalance.availablePaternityLeaves, consumed: leaveBalance.consumedPaternityLeaves },
+      { name: 'Marriage Leave', available: leaveBalance.availableMarriageLeaves, consumed: leaveBalance.consumedMarriageLeaves },
+    ]">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ leave.name }}</h5>
+          <p><strong>Available:</strong> {{ leave.available || 0 }}</p>
+          <p><strong>Consumed:</strong> {{ leave.consumed || 0 }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p class="text-center">Loading leave balance...</p>
+  </ng-template>
+
+  <p-toast></p-toast>
+</div>

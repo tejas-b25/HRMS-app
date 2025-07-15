@@ -1,0 +1,25 @@
+h4 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+label {
+  font-weight: 600;
+}
+
+pre {
+  background: #f1f1f1;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.container {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+
+button {
+  min-width: 120px;
+}

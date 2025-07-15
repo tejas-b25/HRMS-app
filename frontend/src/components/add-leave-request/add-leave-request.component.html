@@ -1,0 +1,38 @@
+<div class="leave-request-form">
+  <h2>Apply for Leave</h2>
+  <form [formGroup]="leaveForm" (ngSubmit)="submitLeaveRequest()">
+    <div class="form-group">
+      <label>Leave Type</label>
+      <select class="form-control" formControlName="leaveTypeId">
+        <option value="" disabled>Select Type</option>
+        <option *ngFor="let type of leaveTypes" [value]="type.leaveTypeId">
+          {{ type.name.replaceAll('_', ' ').toLowerCase() | titlecase }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="date" formControlName="startDate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="date" formControlName="endDate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Number of Half Days</label>
+      <input type="number" step="0.5" formControlName="noOfHalfDays" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Reason</label>
+      <textarea formControlName="reason" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="leaveForm.invalid">Submit</button>
+  </form>
+
+  <p-toast></p-toast>
+</div>

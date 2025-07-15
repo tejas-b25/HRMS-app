@@ -1,0 +1,104 @@
+<div class="wrapper">
+  <!-- Sidebar -->
+  <app-manager-sidebar></app-manager-sidebar>
+
+  <div id="content">
+    <!-- User Info Header -->
+    <div class="user-info-header d-flex justify-content-end align-items-center p-3 border-bottom">
+      <i class="fa fa-user-circle fa-lg me-2 text-primary"></i>
+      <span class="me-2 fw-bold">{{ username }}</span>
+      <span class="text-muted">({{ role.toLowerCase() }})</span>
+    </div>
+
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+        <h1 class="h3 mb-0 text-gray-800">Manager Dashboard</h1>
+        <a href="#" class="btn btn-sm btn-primary shadow-sm">
+          <i class="fas fa-download fa-sm text-white-50"></i> Export Summary
+        </a>
+      </div>
+
+      <!-- Metric Cards -->
+      <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4" *ngFor="let metric of [
+          { label: 'Team Size', value: teamSize, icon: 'fa-users', class: 'primary' },
+          { label: 'Pending Approvals', value: pendingApprovals, icon: 'fa-check-circle', class: 'success' },
+          { label: 'Active Projects', value: activeProjects, icon: 'fa-briefcase', class: 'info' },
+          { label: 'Escalations', value: escalations, icon: 'fa-exclamation-triangle', class: 'warning' }
+        ]">
+          <div class="metric-card animated-card" [ngClass]="metric.class + '-metric'">
+            <div class="metric-title">{{ metric.label }}</div>
+            <div class="metric-value">{{ metric.value }}</div>
+            <i class="fas" [ngClass]="metric.icon + ' metric-icon'"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="row">
+        <!-- Task Distribution Chart -->
+        <div class="col-xl-6 col-lg-6">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Task Distribution</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-pie pt-4 pb-2">
+                <canvas baseChart [data]="taskDistributionData" type="doughnut"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Status Chart -->
+        <div class="col-xl-6 col-lg-6">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Project Status</h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-bar">
+                <canvas baseChart [data]="projectStatusData" [options]="projectStatusOptions" type="bar"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="row">
+        <div class="col-lg-12 mb-4">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
+            </div>
+            <div class="card-body">
+              <div *ngFor="let event of announcements" class="mb-3">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                          {{ event.date | date:'mediumDate' }}
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ event.title }}</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas {{ getEventIcon(event.type) }} fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FontAwesome (once in index.html or angular.json) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

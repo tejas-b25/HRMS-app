@@ -1,0 +1,78 @@
+<div class="container mt-4" *ngIf="isVisible">
+  <div class="position-relative">
+    <h2 class="mb-3">Add Bank Detail</h2>
+    <button class="btn-close position-absolute top-0 end-0" (click)="closeForm()" aria-label="Close"></button>
+
+  </div>
+
+  <form [formGroup]="bankForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Account Holder Name -->
+    <div class="mb-3">
+      <label>Account Holder Name</label>
+      <input type="text" class="form-control" formControlName="accountHolderName" />
+      <div class="text-danger" *ngIf="f['accountHolderName'].touched || isSubmitted">
+        <div *ngIf="f['accountHolderName'].hasError('required')">Required</div>
+        <div *ngIf="f['accountHolderName'].hasError('pattern')">Enter a valid name</div>
+      </div>
+    </div>
+
+    <!-- Bank Name -->
+    <div class="mb-3">
+      <label>Bank Name</label>
+      <input type="text" class="form-control" formControlName="bankName" />
+      <div class="text-danger" *ngIf="f['bankName'].touched || isSubmitted">
+        <div *ngIf="f['bankName'].hasError('required')">Required</div>
+        <div *ngIf="f['bankName'].hasError('pattern')">Enter a valid bank name</div>
+      </div>
+    </div>
+
+    <!-- Account Number -->
+    <div class="mb-3">
+      <label>Account Number</label>
+      <input type="text" class="form-control" formControlName="accountNumber" />
+      <div class="text-danger" *ngIf="f['accountNumber'].touched || isSubmitted">
+        <div *ngIf="f['accountNumber'].hasError('required')">Required</div>
+        <div *ngIf="f['accountNumber'].hasError('pattern')">Must be 8–20 digits</div>
+      </div>
+    </div>
+
+    <!-- IFSC Code -->
+    <div class="mb-3">
+      <label>IFSC Code</label>
+      <input type="text" class="form-control" formControlName="ifscCode" />
+      <div class="text-danger" *ngIf="f['ifscCode'].touched || isSubmitted">
+        <div *ngIf="f['ifscCode'].hasError('required')">Required</div>
+        <div *ngIf="f['ifscCode'].hasError('pattern')">Invalid IFSC format</div>
+      </div>
+    </div>
+
+    <!-- Branch -->
+    <div class="mb-3">
+      <label>Branch</label>
+      <input type="text" class="form-control" formControlName="branch" />
+      <div class="text-danger" *ngIf="f['branch'].touched || isSubmitted">
+        <div *ngIf="f['branch'].hasError('required')">Required</div>
+        <div *ngIf="f['branch'].hasError('minlength')">Must be at least 3 characters</div>
+      </div>
+    </div>
+
+    <!-- Account Type -->
+    <div class="mb-3">
+      <label>Account Type</label>
+      <select class="form-control" formControlName="accountType">
+        <option value="">Select</option>
+        <option value="Savings">Savings</option>
+        <option value="Current">Current</option>
+      </select>
+      <div class="text-danger" *ngIf="f['accountType'].touched || isSubmitted">
+        <div *ngIf="f['accountType'].hasError('required')">Required</div>
+      </div>
+    </div>
+
+    <!-- Submit / Clear Buttons -->
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-success" type="submit">Submit</button>
+      <button type="button" class="btn btn-outline-danger" (click)="onClear()">× Clear</button>
+    </div>
+  </form>
+</div>

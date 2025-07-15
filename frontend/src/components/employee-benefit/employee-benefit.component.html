@@ -1,0 +1,77 @@
+<div class="container mt-4 col-md-8">
+<h2 class="text-center mb-4">Assign Employee Benefit</h2>
+ 
+  <div *ngIf="showAlert" class="alert alert-{{alertType}} alert-dismissible fade show" role="alert">
+
+    {{ alertMessage }}
+<button type="button" class="btn-close" (click)="closeAlert()"></button>
+</div>
+ 
+  <form [formGroup]="benefitForm" (ngSubmit)="onSubmit()">
+<div class="mb-3">
+<label for="empId" class="form-label">Select Employee</label>
+<select class="form-select" formControlName="empId" id="empId"
+
+              [ngClass]="{'is-invalid': benefitForm.get('empId')?.touched && benefitForm.get('empId')?.invalid}">
+<option value="">-- Choose Employee --</option>
+<option *ngFor="let emp of employees" [value]="emp.empId">
+
+          {{ emp.firstName }} {{ emp.lastName }}
+</option>
+</select>
+<div class="invalid-feedback">Employee selection is required.</div>
+</div>
+ 
+    <div class="mb-3">
+<label for="benefitId" class="form-label">Benefit ID</label>
+<input type="text" formControlName="benefitId" class="form-control" id="benefitId"
+
+             [ngClass]="{'is-invalid': benefitForm.get('benefitId')?.invalid && benefitForm.get('benefitId')?.touched}">
+<div class="invalid-feedback">Benefit ID is required.</div>
+</div>
+ 
+    <div class="mb-3">
+<label for="amount" class="form-label">Amount</label>
+<input type="text" formControlName="amount" class="form-control" id="amount"
+
+             [ngClass]="{'is-invalid': benefitForm.get('amount')?.invalid && benefitForm.get('amount')?.touched}">
+<div class="invalid-feedback">Amount is required and must be numeric.</div>
+</div>
+ 
+    <div class="mb-3">
+<label for="effectiveFrom" class="form-label">Effective From</label>
+<input type="date" formControlName="effectiveFrom" class="form-control" id="effectiveFrom"
+
+             [ngClass]="{'is-invalid': benefitForm.get('effectiveFrom')?.invalid && benefitForm.get('effectiveFrom')?.touched}">
+<div class="invalid-feedback">Start date required.</div>
+</div>
+ 
+    <div class="mb-3">
+<label for="effectiveTo" class="form-label">Effective To</label>
+<input type="date" formControlName="effectiveTo" class="form-control" id="effectiveTo"
+
+             [ngClass]="{'is-invalid': benefitForm.get('effectiveTo')?.invalid && benefitForm.get('effectiveTo')?.touched}">
+<div class="invalid-feedback">End date required.</div>
+</div>
+ 
+    <div class="mb-3">
+<label for="notes" class="form-label">Notes</label>
+<textarea formControlName="notes" class="form-control" id="notes" rows="2"></textarea>
+</div>
+ 
+    <button type="submit" class="btn btn-primary w-100">Assign Benefit</button>
+</form>
+ 
+  <!-- DEBUG / VISIBILITY CHECK: Optional section -->
+<div class="mt-4">
+<h5>Employee Preview (For Debugging)</h5>
+<p *ngIf="!employees || employees.length === 0" class="text-danger">⚠️ No employees loaded.</p>
+<ul class="list-group" *ngIf="employees.length">
+<li class="list-group-item" *ngFor="let emp of employees">
+<strong>{{ emp.firstName }} {{ emp.lastName }}</strong> (ID: {{ emp.empId }})
+</li>
+</ul>
+</div>
+</div>
+
+ 

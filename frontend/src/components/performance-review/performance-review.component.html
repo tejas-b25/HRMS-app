@@ -1,0 +1,49 @@
+<p-toast></p-toast>
+
+<h2>Start New Review Cycle</h2>
+<form [formGroup]="cycleForm" (ngSubmit)="createCycle()">
+  <div>
+    <label>Cycle Name:</label>
+    <input type="text" formControlName="cycleName" />
+  </div>
+
+  <div>
+    <label>Start Date:</label>
+    <input type="date" formControlName="startDate" />
+  </div>
+
+  <div>
+    <label>End Date:</label>
+    <input type="date" formControlName="endDate" />
+  </div>
+
+  <button pButton type="submit" label="Create Cycle" [disabled]="!cycleForm.valid"></button>
+</form>
+
+<hr />
+
+<h2>Active Review Cycles</h2>
+<p-table [value]="activeCycles">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Cycle Name</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-cycle>
+    <tr>
+      <td>{{ cycle.id }}</td>
+      <td>{{ cycle.cycleName }}</td>
+      <td>{{ cycle.startDate }}</td>
+      <td>{{ cycle.endDate }}</td>
+      <td>{{ cycle.status }}</td>
+      <td>
+        <button pButton type="button" label="Close" (click)="closeCycle(cycle.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,104 @@
+<div class="wrapper">
+  <!-- Sidebar -->
+  <app-employee-sidebar></app-employee-sidebar>
+
+  <div id="content">
+    <!-- Header with user info -->
+    <div class="user-info-header d-flex justify-content-end align-items-center p-3 border-bottom">
+      <i class="fa fa-user-circle fa-lg me-2 text-primary"></i>
+      <span class="me-2 fw-bold">{{ username }}</span>
+      <span class="text-muted">({{ role.toLowerCase() }})</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+        <h1 class="h3 mb-0 text-gray-800">Employee Dashboard</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 mb-4" *ngFor="let leave of leaveBalance">
+          <div class="card shadow metric-card">
+            <div class="card-body">
+              <h5 class="metric-title">{{ leave.type }}</h5>
+              <div class="metric-value">{{ leave.total - leave.used }}/{{ leave.total }}</div>
+              <small>Used: {{ leave.used }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+          <div class="card shadow metric-card">
+            <div class="card-body">
+              <h5 class="metric-title">Attendance</h5>
+              <div>Present: {{ attendance.daysPresent }}</div>
+              <div>Absent: {{ attendance.daysAbsent }}</div>
+              <div>WFH: {{ attendance.workFromHome }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+          <div class="card shadow metric-card">
+            <div class="card-body">
+              <h5 class="metric-title">Next Payroll</h5>
+              <div class="metric-value">{{ payrollDate | date: 'mediumDate' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+          <div class="card shadow metric-card">
+            <div class="card-body">
+              <h5 class="metric-title">Upcoming Holidays</h5>
+              <ul class="list-unstyled small">
+                <li *ngFor="let holiday of holidays">
+                  {{ holiday.name }} - {{ holiday.date | date: 'MMM d' }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leave History Table -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Leave History</h6>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Leave Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let leave of leaveHistory">
+                <td>{{ leave.type }}</td>
+                <td>{{ leave.from }}</td>
+                <td>{{ leave.to }}</td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="{
+                          'badge-success': leave.status === 'Approved',
+                          'badge-warning': leave.status === 'Pending',
+                          'badge-danger': leave.status === 'Rejected'
+                        }">
+                    {{ leave.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FontAwesome (only once in index.html or angular.json) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

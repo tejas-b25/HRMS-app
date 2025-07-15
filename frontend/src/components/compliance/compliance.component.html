@@ -1,0 +1,83 @@
+<div class="container">
+  <h2>Compliance Management</h2>
+  
+  <!-- Add New Compliance Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>Add New Compliance</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #complianceForm="ngForm">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" [(ngModel)]="compliance.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" [(ngModel)]="compliance.description" name="description"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <select class="form-control" [(ngModel)]="compliance.type" name="type" required>
+            <option value="STATUTORY">Statutory</option>
+            <option value="INTERNAL">Internal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Frequency</label>
+          <select class="form-control" [(ngModel)]="compliance.frequency" name="frequency" required>
+            <option value="MONTHLY">Monthly</option>
+            <option value="QUARTERLY">Quarterly</option>
+            <option value="YEARLY">Yearly</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="date" class="form-control" [(ngModel)]="compliance.dueDate" name="dueDate" required>
+        </div>
+        <div class="form-group">
+          <label>Penalty</label>
+          <input type="text" class="form-control" [(ngModel)]="compliance.penalty" name="penalty">
+        </div>
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="compliance.documentRequired" name="documentRequired">
+          <label class="form-check-label">Document Required</label>
+        </div>
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" [(ngModel)]="compliance.isActive" name="isActive" checked>
+          <label class="form-check-label">Is Active</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Compliance</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Compliance List -->
+  <div class="card">
+    <div class="card-header">
+      <h4>Compliance List</h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Frequency</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of compliances">
+            <td>{{ item.name }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.frequency }}</td>
+            <td>{{ item.dueDate | date }}</td>
+            <td>{{ item.isActive ? 'Active' : 'Inactive' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

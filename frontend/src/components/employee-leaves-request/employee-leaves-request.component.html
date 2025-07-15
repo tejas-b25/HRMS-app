@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h3 class="text-center mb-3">Employee Leave Requests</h3>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!loading && leaveRequests.length > 0">
+    <table class="table table-hover table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Employee Name</th>
+          <th>Leave Type</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let leave of leaveRequests">
+          <td>{{ leave.employeeName }}</td>
+          <td>{{ leave.leaveType }}</td>
+          <td>{{ leave.fromDate | date: 'mediumDate' }}</td>
+          <td>{{ leave.toDate | date: 'mediumDate' }}</td>
+          <td><span class="badge bg-warning text-dark">{{ leave.status }}</span></td>
+          <td class="text-center">
+            <button class="btn btn-success btn-sm me-1" (click)="approveRequest(leave.id)">
+              Approve
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="rejectRequest(leave.id)">
+              Reject
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && leaveRequests.length === 0 && !errorMessage">
+    <div class="alert alert-info text-center">
+      No <strong>PENDING</strong> leave requests found.
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+</div>
