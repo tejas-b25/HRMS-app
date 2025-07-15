@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Create Leave Type</h3>
+
+  <form [formGroup]="leaveTypeForm" (ngSubmit)="onSubmit()" class="leave-form">
+    <div class="mb-3">
+      <label for="name" class="form-label">Leave Name</label>
+      <select id="name" formControlName="name" class="form-select">
+        <option value="">Select Leave Type</option>
+        <option *ngFor="let leave of leaveNames" [value]="leave">{{ leave.replace('_', ' ') }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea formControlName="description" id="description" rows="3" class="form-control"
+        placeholder="Enter leave description"></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="maxDaysPerYear" class="form-label">Max Days Per Year</label>
+      <input type="number" formControlName="maxDaysPerYear" id="maxDaysPerYear" class="form-control"
+        placeholder="e.g. 12" />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Add Leave Type</button>
+  </form>
+
+  <p-toast></p-toast>
+
+  <!-- Leave Type List -->
+  <div class="mt-5">
+    <h4 class="mb-3">All Leave Types</h4>
+    <div class="row">
+      <div class="col-md-6 mb-3" *ngFor="let lt of leaveTypes">
+        <div class="card shadow-sm p-3">
+          <h5>{{ lt.name.replace('_', ' ') }}</h5>
+          <p><strong>Description:</strong> {{ lt.description }}</p>
+          <p><strong>Max Days/Year:</strong> {{ lt.maxDaysPerYear }}</p>
+          <button class="btn btn-danger btn-sm mt-2" (click)="deleteLeaveType(lt.leaveTypeId)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

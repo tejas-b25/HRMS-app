@@ -1,0 +1,139 @@
+
+ 
+/* Main container padding and centering */
+
+.container {
+
+  background-color: #ffffff;
+
+  border-radius: 12px;
+
+  padding: 30px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+}
+ 
+/* Section title */
+
+h2 {
+
+  font-weight: 600;
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+  color: #343a40;
+
+}
+ 
+/* Form field spacing */
+
+.form-label {
+
+  font-weight: 500;
+
+  color: #212529;
+
+}
+ 
+input,
+
+select,
+
+textarea {
+
+  font-size: 16px;
+
+}
+ 
+input:focus,
+
+select:focus,
+
+textarea:focus {
+
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+
+  border-color: #86b7fe;
+
+}
+ 
+/* Validation error red left border */
+
+input.ng-invalid.ng-touched,
+
+select.ng-invalid.ng-touched,
+
+textarea.ng-invalid.ng-touched {
+
+  border-left: 4px solid #dc3545;
+
+}
+ 
+/* Button styling */
+
+.btn-primary {
+
+  font-weight: 500;
+
+  font-size: 16px;
+
+  padding: 10px;
+
+  border-radius: 8px;
+
+  background-color: #007bff;
+
+  border: none;
+
+}
+ 
+.btn-primary:hover {
+
+  background-color: #0069d9;
+
+}
+ 
+/* Alert box spacing and animation */
+
+.alert {
+
+  margin-bottom: 20px;
+
+  font-size: 15px;
+
+}
+ 
+/* Dismiss button positioning for alert */
+
+.btn-close {
+
+  float: right;
+
+  background: none;
+
+  border: none;
+
+  font-size: 1.2rem;
+
+}
+ 
+/* Responsive design */
+
+@media (max-width: 768px) {
+
+  .container {
+
+    padding: 20px;
+
+  }
+ 
+  .btn-primary {
+
+    font-size: 14px;
+
+  }
+
+}

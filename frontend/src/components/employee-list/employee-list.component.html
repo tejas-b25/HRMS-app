@@ -1,0 +1,80 @@
+<div class="employee-list-wrapper container mt-4">
+  <h2>Employee List</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover mt-3" *ngIf="employees.length > 0; else noData">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Emergency</th>
+          <th>Gender</th>
+          <th>DOB</th>
+          <th>Joining</th>
+          <th>Job Type</th>
+          <th>Status</th>
+          <th>Department</th>
+          <th>Manager</th>
+          <th>Designation</th>
+          <th>Education</th>
+          <th>Experience</th>
+          <th>Certifications</th>
+          <th>Bank Details</th>
+          <th>Exit Reason</th>
+          <th>Address</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.contactNumber }}</td>
+          <td>{{ emp.emergencyContact }}</td>
+          <td>{{ emp.gender }}</td>
+          <td>{{ emp.dob | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ emp.joiningDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ emp.jobType }}</td>
+          <td>{{ emp.status }}</td>
+          <td>{{ emp.department?.name || emp.departmentId }}</td>
+          <td>{{ emp.manager?.username || emp.managerId }}</td>
+          <td>{{ emp.designation }}</td>
+          <td>{{ emp.education }}</td>
+          <td>{{ emp.experience }}</td>
+          <td>{{ emp.certifications }}</td>
+
+          <!-- ✅ Bank Details with Popup -->
+          <td class="bank-popup-container">
+            <ng-container *ngIf="emp.bankDetails; else noBank">
+              <span class="bank-popup-trigger">View</span>
+              <div class="bank-popup-card">
+                <strong>{{ emp.bankDetails.bankName }}</strong><br>
+                A/C: {{ emp.bankDetails.accountNumber }}<br>
+                IFSC: {{ emp.bankDetails.ifsc }}
+              </div>
+            </ng-container>
+            <ng-template #noBank>
+              <span class="text-muted">Not Linked</span>
+            </ng-template>
+          </td>
+
+          <td>{{ emp.exitReason }}</td>
+          <td>{{ emp.address }}</td>
+          <td>
+            <img *ngIf="emp.photoUrl"
+                 [src]="emp.photoUrl"
+                 width="50"
+                 height="50"
+                 class="img-thumbnail shadow-sm"
+                 alt="Photo">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noData>
+    <p>No employees found.</p>
+  </ng-template>
+</div>

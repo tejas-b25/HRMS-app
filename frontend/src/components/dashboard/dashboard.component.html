@@ -1,0 +1,79 @@
+<div class="wrapper">
+  <!-- Sidebars based on role/viewMode -->
+  <ng-container [ngSwitch]="viewMode">
+    <app-sidebar *ngSwitchCase="'ADMIN'"></app-sidebar>
+    <app-hr-sidebar *ngSwitchCase="'HR'"></app-hr-sidebar>
+    <app-finance-sidebar *ngSwitchCase="'Finance'"></app-finance-sidebar>
+    <app-manager-sidebar *ngSwitchCase="'Management'"></app-manager-sidebar>
+  </ng-container>
+
+  <div id="content">
+    <!-- User Info -->
+    <div class="user-info-header d-flex justify-content-end align-items-center p-3 border-bottom">
+      <i class="fa fa-user-circle fa-lg me-2 text-primary"></i>
+      <span class="me-2 fw-bold">{{ username }}</span>
+      <span class="text-muted">({{ role.toLowerCase() }})</span>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h2>{{ viewMode }} Dashboard</h2>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary" [class.active]="viewMode === 'HR'" (click)="viewMode = 'HR'">HR View</button>
+                <button type="button" class="btn btn-outline-primary" [class.active]="viewMode === 'Management'" (click)="viewMode = 'Management'">Management View</button>
+                <button type="button" class="btn btn-outline-primary" [class.active]="viewMode === 'Finance'" (click)="viewMode = 'Finance'">Finance View</button>
+              </div>
+
+              <div class="btn-group ms-2" role="group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                  Department: {{ department }}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" (click)="department = 'All'">All Departments</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="department = 'Sales'">Sales</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="department = 'Technology'">Technology</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="department = 'HR'">HR</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="department = 'Finance'">Finance</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Widgets -->
+      <app-stats-cards></app-stats-cards>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <app-attendance-chart></app-attendance-chart>
+        </div>
+        <div class="col-lg-4">
+          <app-department-chart></app-department-chart>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <app-quick-actions></app-quick-actions>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <app-upcoming-events></app-upcoming-events>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <app-pending-approvals></app-pending-approvals>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FontAwesome for icon (include this in index.html or angular.json if not yet done) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

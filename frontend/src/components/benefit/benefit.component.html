@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>➕ Add New Benefit</h2>
+  <form [formGroup]="benefitForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" />
+    </div>
+
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+    <div>
+      <label for="type">Type:</label>
+      <select id="type" formControlName="type">
+        <option value="MONETARY">MONETARY</option>
+        <option value="NON_MONETARY">NON_MONETARY</option>
+      </select>
+    </div>
+
+    <div>
+      <label>
+        <input type="checkbox" formControlName="taxable" />
+        Taxable
+      </label>
+    </div>
+
+    <button type="submit" [disabled]="benefitForm.invalid">Submit</button>
+  </form>
+
+  <p *ngIf="successMessage" style="color: green;">✅ {{ successMessage }}</p>
+  <p *ngIf="errorMessage" style="color: red;">❌ {{ errorMessage }}</p>
+
+  <hr />
+
+  <h3>📋 All Benefits</h3>
+  <div *ngIf="loading">Loading benefits...</div>
+  <ul *ngIf="!loading && benefits.length > 0">
+    <li *ngFor="let benefit of benefits">
+      <strong>{{ benefit.name }}</strong>: {{ benefit.description }}
+      <br />
+      Type: {{ benefit.type }} |
+      Taxable: {{ benefit.taxable ? 'Yes' : 'No' }}
+    </li>
+  </ul>
+  <p *ngIf="!loading && benefits.length === 0">No benefits found.</p>
+</div>
