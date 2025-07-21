@@ -6,9 +6,9 @@
 // };
 
 export const environment = {
-  production: false,
-  apiBaseUrl: 'http://localhost:8080/api',
+  production: true,
+  apiBaseUrl: 'api',
   appName: 'HRMS',
-  enableDebug: true
+  enableDebug: false
 };
  
