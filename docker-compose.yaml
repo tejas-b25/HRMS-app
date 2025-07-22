@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysql-service:
+    image: mysql:8.0
+    container_name: qst_hrms-mysql-service-1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hrmsdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mynetwork
+    
+
+  springboot-service:
+    image: tejas2506/backend-hrms:t1
+    container_name: qst_hrms-springboot-service-1
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/hrmsdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-service:
+        condition: service_healthy
+    networks:
+      - mynetwork
+    
+
+  frontend:
+    image: tejas2506/frontend-hrms:t1
+    container_name: qst_hrms-frontend-1
+    ports:
+      - "4200:80"
+    depends_on:
+      - springboot-service
+    networks:
+      - mynetwork
+    
+
+volumes:
+  mysql-data:
+
+networks:
+  mynetwork:
