@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: dadarao4141/hrms-frontend:v1
+          image: tejas2506/hrms-frontend1:v1
           ports:
             - containerPort: 80
 
@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: dadarao4141/hrms-backend:v1
+          image: tejas2506/hrms-backend1:v1
           ports:
             - containerPort: 8080
           env:
