@@ -21,7 +21,7 @@ services:
     
 
   springboot-service:
-    image: tejas2506/backend-hrms:t1
+    image: tejas2506/hrms-backend:v1
     container_name: qst_hrms-springboot-service-1
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/hrmsdb
@@ -37,7 +37,7 @@ services:
     
 
   frontend:
-    image: tejas2506/frontend-hrms:t1
+    image: tejas2506/hrms-frontend:v1
     container_name: qst_hrms-frontend-1
     ports:
       - "4200:80"
