@@ -146,17 +146,17 @@ public class AppConfig {
         };
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Your Angular frontend
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+  //  @Bean
+   // public CorsConfigurationSource corsConfigurationSource() {
+   //     CorsConfiguration configuration = new CorsConfiguration();
+   //     configuration.setAllowCredentials(true);
+   //     configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+   //     configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Your Angular frontend
+   //     configuration.setAllowedHeaders(Arrays.asList("*"));
+   //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+   //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //    source.registerCorsConfiguration("/**", configuration);
+     //   return source;
+ //   }
 }
