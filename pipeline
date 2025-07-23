@@ -1,0 +1,71 @@
+pipeline {
+    agent { label 'agent' }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = 'docker'
+        DOCKERHUB_USERNAME = 'tejas2506'
+        FRONTEND_IMAGE = 'tejas2506/hrms-frontend:v1'
+        BACKEND_IMAGE = 'tejas2506/hrms-backend:v1'
+    }
+
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tejas-b25/HRMS-app.git'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                }
+            }
+        }
+        stage('Build & Push Backend Image') {
+            steps {
+                dir('backend') {
+                    sh '''
+                    docker build -t $BACKEND_IMAGE .
+                    docker push $BACKEND_IMAGE
+                    '''
+                }
+            }
+        }
+        stage('Build & Push Frontend Image') {
+            steps {
+                dir('frontend') {
+                    sh '''
+                    docker build -t $FRONTEND_IMAGE .
+                    docker push $FRONTEND_IMAGE
+                    '''
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                        sh 'docker compose down'
+                        sh 'docker compose up -d'
+                        sh 'docker ps -a'
+                dir('k8s') {
+                    withCredentials([file(credentialsId: 'k8s-id', variable: 'KUBECONFIG')]) {
+                        sh 'kubectl delete all --all'
+                        sh 'kubectl apply -f .'
+                        sh '''
+                        i=1
+                        while [ $i -le 6 ]
+                        do
+                            echo "Attempt $i: Waiting 10 seconds..."
+                            sleep 10
+                            kubectl get all
+                            i=$((i+1))
+                        done
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}
